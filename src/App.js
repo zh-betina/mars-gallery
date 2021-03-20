@@ -6,6 +6,9 @@ import Main from "./Main/Main";
 
 import './App.css';
 
+console.log(process.env.REACT_APP_API_KEY);
+
+
 function App() {
   return (
     <BrowserRouter>

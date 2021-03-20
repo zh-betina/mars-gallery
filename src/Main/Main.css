@@ -1,9 +1,14 @@
 .Main{
     display: flex;
+    flex-direction: column;
     position: absolute;
-    left: 10rem;
-    top: 9rem;
-    width: 92vw;
+    left: 7.3rem;
+    top: 6.4rem;
+    width: 95.8vw;
     min-height: 85vh;
-    background-color: red;
+}
+
+.Main-loader{
+    margin-top: 2rem;
+    font-size: 1.7rem;
 }

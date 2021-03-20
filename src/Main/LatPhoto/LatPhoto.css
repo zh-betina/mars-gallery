@@ -1,0 +1,28 @@
+.LatPhoto-wrapper{
+    height: 78vh;
+    width: 50vw;
+    margin-top: 5rem;
+    margin-left: 10rem;
+}
+
+.LatPhoto-title,
+.LatPhoto-date{
+    font-size: 2rem;
+}
+
+.LatPhoto-img{
+    max-width: 30vw;
+    border-radius: 10px;
+    margin-top: 4rem;
+    cursor: pointer;
+}
+
+.LatPhoto-img:hover{
+    filter: opacity(.9);
+}
+
+.LatPhoto-zoom-txt{
+    display: inline;
+    color: #151515;
+    text-transform: uppercase;
+}
