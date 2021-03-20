@@ -1,3 +1,9 @@
 .Main{
     display: flex;
+    position: absolute;
+    left: 10rem;
+    top: 9rem;
+    width: 92vw;
+    min-height: 85vh;
+    background-color: red;
 }

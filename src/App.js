@@ -10,8 +10,8 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <Sidebar />
-        <Route path="/" exact component={Main} />
+            <Sidebar />
+            <Route path="/" exact component={Main} />
       </div>
     </BrowserRouter>
   );

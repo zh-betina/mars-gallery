@@ -20,6 +20,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import PhotoSizeSelectActualIcon from '@material-ui/icons/PhotoSizeSelectActual';
 import Calendar from 'react-calendar';
 
+
 const drawerWidth = 280;
 
 const useStyles = makeStyles((theme) => ({
@@ -112,71 +113,71 @@ const Sidebar = () => {
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar
-                position="fixed"
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open,
-                })}
-            >
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        className={clsx(classes.menuButton, {
-                            [classes.hide]: open,
+                    <AppBar
+                        position="fixed"
+                        className={clsx(classes.appBar, {
+                            [classes.appBarShift]: open,
                         })}
                     >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h5" noWrap>
-                        Nasa Mars Gallery
+                        <Toolbar>
+                            <IconButton
+                                color="inherit"
+                                aria-label="open drawer"
+                                onClick={handleDrawerOpen}
+                                edge="start"
+                                className={clsx(classes.menuButton, {
+                                    [classes.hide]: open,
+                                })}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            <Typography variant="h5" noWrap>
+                                Nasa Mars Gallery
             </Typography>
-                </Toolbar>
-            </AppBar>
-            <Drawer
-                variant="permanent"
-                className={clsx(classes.drawer, {
-                    [classes.drawerOpen]: open,
-                    [classes.drawerClose]: !open,
-                })}
-                classes={{
-                    paper: clsx({
-                        [classes.drawerOpen]: open,
-                        [classes.drawerClose]: !open,
-                    }),
-                }}
-            >
-                <div className={classes.toolbar}>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
-                </div>
-                <Divider />
-                <List>
-                    <ListItem onClick={toggleCalendarOn} button key="Display by date">
-                        <ListItemIcon><EventIcon /></ListItemIcon>
-                        <ListItemText primary="Display by date" />
-                    </ListItem>
-                    {
-                        calendarOn ?
-                            <React.Fragment>
-                                <Divider />
-                                <Calendar /></React.Fragment> : null
-                    }
-                    <Divider />
-                    <ListItem button key="Gallery">
-                        <ListItemIcon><PhotoSizeSelectActualIcon /></ListItemIcon>
-                        <ListItemText primary="Gallery" />
-                    </ListItem>
-                    <ListItem button key="Favorites">
-                        <ListItemIcon><FavoriteIcon /></ListItemIcon>
-                        <ListItemText primary="Favorites" />
-                    </ListItem>
-                </List>
-                <Divider />
-            </Drawer>
+                        </Toolbar>
+                    </AppBar>
+                    <Drawer
+                        variant="permanent"
+                        className={clsx(classes.drawer, {
+                            [classes.drawerOpen]: open,
+                            [classes.drawerClose]: !open,
+                        })}
+                        classes={{
+                            paper: clsx({
+                                [classes.drawerOpen]: open,
+                                [classes.drawerClose]: !open,
+                            }),
+                        }}
+                    >
+                        <div className={classes.toolbar}>
+                            <IconButton onClick={handleDrawerClose}>
+                                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                            </IconButton>
+                        </div>
+                        <Divider />
+                        <List>
+                            <ListItem onClick={toggleCalendarOn} button key="Display by date">
+                                <ListItemIcon><EventIcon /></ListItemIcon>
+                                <ListItemText primary="Display by date" />
+                            </ListItem>
+                            {
+                                calendarOn ?
+                                    <React.Fragment>
+                                        <Divider />
+                                        <Calendar /></React.Fragment> : null
+                            }
+                            <Divider />
+                            <ListItem button key="Gallery">
+                                <ListItemIcon><PhotoSizeSelectActualIcon /></ListItemIcon>
+                                <ListItemText primary="Gallery" />
+                            </ListItem>
+                            <ListItem button key="Favorites">
+                                <ListItemIcon><FavoriteIcon /></ListItemIcon>
+                                <ListItemText primary="Favorites" />
+                            </ListItem>
+                        </List>
+                        <Divider />
+                    </Drawer>
         </div>
     )
 }
