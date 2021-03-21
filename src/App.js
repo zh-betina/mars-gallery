@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Route, BrowserRouter } from "react-router-dom";
 
 import Sidebar from "./Sidebar/Sidebar";
@@ -9,17 +8,12 @@ import Gallery from "./Gallery/Gallery";
 import './App.css';
 
 function App() {
-  let galleryState = false;
-  const [isGalleryChosen, setIsGalleryChosen] = useState(galleryState);
   return (
     <BrowserRouter>
       <div className="App">
-            <Sidebar galleryState={galleryState=> setIsGalleryChosen(galleryState)} />
+            <Sidebar />
             <Route path="/" exact component={Main} />
-            <Route path="/gallery" component={()=> <Gallery galleryState={isGalleryChosen}/>} />
-            {
-                console.log(isGalleryChosen)
-            }
+            <Route path="/gallery" component={Gallery} />
             <WeatherFeed/>
       </div>
     </BrowserRouter>

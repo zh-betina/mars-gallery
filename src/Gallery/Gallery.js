@@ -5,7 +5,7 @@ import Chip from '@material-ui/core/Chip';
 
 import "./Gallery.css";
 
-const Gallery = props => {
+const Gallery = () => {
     const cameras = {
         "FHAZ": "Front Hazard Avoidance Camera",
         "RHAZ": "Rear Hazard Avoidance Camera",
@@ -22,7 +22,6 @@ const Gallery = props => {
         setTitleTxt(` - ${camera[1]}`);
     }
 
-    console.log(props.isGalleryChosen);
     const [titleTxt, setTitleTxt] = useState("");
     return (
         <main className="Main">

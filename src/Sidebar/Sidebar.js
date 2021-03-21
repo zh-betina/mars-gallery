@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -22,7 +23,7 @@ import PhotoSizeSelectActualIcon from '@material-ui/icons/PhotoSizeSelectActual'
 import Calendar from 'react-calendar';
 import HomeIcon from '@material-ui/icons/Home';
 import 'react-calendar/dist/Calendar.css';
-import saveToLocalStorage from "../utils/saveToLocalStorage";
+import saveToLocalStorage from "../utils/saveToSessionStorage";
 
 
 const drawerWidth = 280;
@@ -92,14 +93,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Sidebar = ({ galleryState }) => {
+const Sidebar = () => {
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = useState(false);
     const [calendarOn, setCalendarOn] = useState(false);
     const [calendarVal, setCalendarValue] = useState(new Date());
-
-    console.log(galleryState);
+    let currentlocation = useLocation();
+    let history = useHistory();
 
 
     const handleDrawerOpen = () => {
@@ -121,11 +122,19 @@ const Sidebar = ({ galleryState }) => {
     };
 
     const handleDateChoice = (e) => {
-        console.log(calendarVal);
-        setCalendarValue({ "day": e.getDate(), "month": e.getMonth() + 1, "year": e.getFullYear()});
-        saveToLocalStorage("date", calendarVal);
+        setCalendarValue(new Date(e));
+        handleNewDate(e);
     }
 
+    const handleNewDate = (e)=>{
+        const objDate = { "day": e.getDate(), "month": e.getMonth() + 1, "year": e.getFullYear()}
+        saveToLocalStorage("date", JSON.stringify(objDate));
+        if(currentlocation.pathname === "/"){
+            window.location.reload();
+        }else{
+            history.push("/");
+        }
+    }
 
     return (
         <div className={classes.root}>
@@ -181,7 +190,7 @@ const Sidebar = ({ galleryState }) => {
                         calendarOn ?
                             <React.Fragment>
                                 <Divider />
-                                <Calendar onChange={(e) => handleDateChoice(e)}
+                                <Calendar value={calendarVal} onChange={(e) => handleDateChoice(e)}
                                 /></React.Fragment> : null
                     }
                     <Divider />
@@ -191,7 +200,7 @@ const Sidebar = ({ galleryState }) => {
                             <ListItemText primary="Homepage" />
                         </ListItem>
                     </Link>
-                    <Link onClick={() => { galleryState(true) }} to="/gallery">
+                    <Link to="/gallery">
                         <ListItem button key="Gallery">
                             <ListItemIcon><PhotoSizeSelectActualIcon /></ListItemIcon>
                             <ListItemText primary="Gallery" />

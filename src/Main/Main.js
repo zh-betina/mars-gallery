@@ -24,30 +24,38 @@ const useStyles = makeStyles((theme) => ({
 const Main = () => {
     const classes = useStyles();
     const [loader, setLoader] = useState(true);
-    const [fetchedData, setFetchedData] = useState({camera_name: "", date: "", imgSrc: ""});
+    const [fetchedData, setFetchedData] = useState({ camera_name: "", date: "", imgSrc: "" });
     const todayDate = getDate();
     let data;
     let url;
     let method = "GET";
-    const storedDate = JSON.parse(localStorage.getItem("date"));
-    if(storedDate === null){
+    const storedDate = JSON.parse(sessionStorage.getItem("date"));
+    if (storedDate === null) {
         url = `https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=${todayDate.year}-${todayDate.month}-${todayDate.day}&api_key=${process.env.REACT_APP_API_KEY}`;
     } else {
-        url = `https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=${todayDate.year}-${todayDate.month}-${todayDate.day}&api_key=${process.env.REACT_APP_API_KEY}`
+        url = `https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=${storedDate.year}-${storedDate.month}-${storedDate.day}&api_key=${process.env.REACT_APP_API_KEY}`
     }
 
-    console.log(storedDate);
-
-    console.log(localStorage.getItem("date"));
     useEffect(() => {
         fetchData(data, url, method)
-        .then((data) => {
-            setFetchedData({camera_name: data.photos[0].camera.full_name, date: data.photos[0].earth_date, imgSrc: data.photos[0].img_src})
-            localStorage.clear();
-        })
-        .then(()=> setLoader(false));
+            .then((data) => {
+                if (data.photos.length !== 0) {
+                    setFetchedData({ camera_name: data.photos[0].camera.full_name, date: data.photos[0].earth_date, imgSrc: data.photos[0].img_src })
+                    sessionStorage.removeItem("date");
+                } else {
+                    setFetchedData({ message: "No photos found for that day. Please, try the same date with another camera or another date." });
+                }
+            })
+            .then(() => setLoader(false));
     }, []);
 
+    const photoNotAvail = () => {
+        if (fetchedData.hasOwnProperty("message")) {
+            return <p>{fetchedData.message}</p>
+        } else {
+            return <LatPhoto camera={fetchedData.camera_name} date={fetchedData.date} imgSrc={fetchedData.imgSrc} />
+        }
+    }
     return (
         <main className="Main">
             <Title txt="latest mars photo" />
@@ -56,9 +64,8 @@ const Main = () => {
                     loader ? <Backdrop className={classes.backdrop} open={loader}>
                         <CircularProgress color="inherit" />
                         <p className="Main-loader">Loading...</p>
-                    </Backdrop> : <LatPhoto camera={fetchedData.camera_name} date={fetchedData.date} imgSrc={fetchedData.imgSrc}/>
+                    </Backdrop> : photoNotAvail()
                 }
-
             </section>
         </main>
     )
