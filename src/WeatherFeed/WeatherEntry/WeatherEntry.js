@@ -10,6 +10,7 @@ import { mdiArrowCollapse } from '@mdi/js';
 import "./WeatherEntry.css";
 
 const WeatherEntry = props => {
+    
     const SeasonIcon = () => {
         switch (props.season) {
             case "winter":

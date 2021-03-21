@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import WeatherEntry from "./WeatherEntry/WeatherEntry";
 
 import fetchData from "../services/fetchData";
 
@@ -60,7 +61,9 @@ const WeatherFeed = () => {
   return (
     <Paper className={classes.root} elevation={3}>
       {
-        loader ? <CircularProgress /> : <p>Data fetched</p>
+        loader ? <CircularProgress /> : loadedEntries.map((el, idx)=>{
+          <WeatherEntry {...el} key={idx}/>
+        })
       }
     </Paper>
   )
