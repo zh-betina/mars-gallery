@@ -18,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
     top: "0",
     right: "0",
     zIndex: "10",
-    paddingTop: "15rem"
+    paddingTop: "15rem",
+    overflowY: "scroll"
   },
 }));
 

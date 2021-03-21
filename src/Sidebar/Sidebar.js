@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -19,6 +20,9 @@ import EventIcon from '@material-ui/icons/Event';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PhotoSizeSelectActualIcon from '@material-ui/icons/PhotoSizeSelectActual';
 import Calendar from 'react-calendar';
+import HomeIcon from '@material-ui/icons/Home';
+import 'react-calendar/dist/Calendar.css';
+import saveToLocalStorage from "../utils/saveToLocalStorage";
 
 
 const drawerWidth = 280;
@@ -88,11 +92,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Sidebar = () => {
+const Sidebar = ({ galleryState }) => {
     const classes = useStyles();
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
-    const [calendarOn, setCalendarOn] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [calendarOn, setCalendarOn] = useState(false);
+    const [calendarVal, setCalendarValue] = useState(new Date());
+
+    console.log(galleryState);
+
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -112,74 +120,90 @@ const Sidebar = () => {
         }
     };
 
+    const handleDateChoice = (e) => {
+        console.log(calendarVal);
+        setCalendarValue({ "day": e.getDate(), "month": e.getMonth() + 1, "year": e.getFullYear()});
+        saveToLocalStorage("date", calendarVal);
+    }
+
+
     return (
         <div className={classes.root}>
             <CssBaseline />
-                    <AppBar
-                        position="fixed"
-                        className={clsx(classes.appBar, {
-                            [classes.appBarShift]: open,
+            <AppBar
+                position="fixed"
+                className={clsx(classes.appBar, {
+                    [classes.appBarShift]: open,
+                })}
+            >
+                <Toolbar>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={handleDrawerOpen}
+                        edge="start"
+                        className={clsx(classes.menuButton, {
+                            [classes.hide]: open,
                         })}
                     >
-                        <Toolbar>
-                            <IconButton
-                                color="inherit"
-                                aria-label="open drawer"
-                                onClick={handleDrawerOpen}
-                                edge="start"
-                                className={clsx(classes.menuButton, {
-                                    [classes.hide]: open,
-                                })}
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                            <Typography variant="h5" noWrap>
-                                Nasa Mars Gallery
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h5" noWrap>
+                        Nasa Mars Gallery
             </Typography>
-                        </Toolbar>
-                    </AppBar>
-                    <Drawer
-                        variant="permanent"
-                        className={clsx(classes.drawer, {
-                            [classes.drawerOpen]: open,
-                            [classes.drawerClose]: !open,
-                        })}
-                        classes={{
-                            paper: clsx({
-                                [classes.drawerOpen]: open,
-                                [classes.drawerClose]: !open,
-                            }),
-                        }}
-                    >
-                        <div className={classes.toolbar}>
-                            <IconButton onClick={handleDrawerClose}>
-                                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                            </IconButton>
-                        </div>
-                        <Divider />
-                        <List>
-                            <ListItem onClick={toggleCalendarOn} button key="Display by date">
-                                <ListItemIcon><EventIcon /></ListItemIcon>
-                                <ListItemText primary="Display by date" />
-                            </ListItem>
-                            {
-                                calendarOn ?
-                                    <React.Fragment>
-                                        <Divider />
-                                        <Calendar /></React.Fragment> : null
-                            }
-                            <Divider />
-                            <ListItem button key="Gallery">
-                                <ListItemIcon><PhotoSizeSelectActualIcon /></ListItemIcon>
-                                <ListItemText primary="Gallery" />
-                            </ListItem>
-                            <ListItem button key="Favorites">
-                                <ListItemIcon><FavoriteIcon /></ListItemIcon>
-                                <ListItemText primary="Favorites" />
-                            </ListItem>
-                        </List>
-                        <Divider />
-                    </Drawer>
+                </Toolbar>
+            </AppBar>
+            <Drawer
+                variant="permanent"
+                className={clsx(classes.drawer, {
+                    [classes.drawerOpen]: open,
+                    [classes.drawerClose]: !open,
+                })}
+                classes={{
+                    paper: clsx({
+                        [classes.drawerOpen]: open,
+                        [classes.drawerClose]: !open,
+                    }),
+                }}
+            >
+                <div className={classes.toolbar}>
+                    <IconButton onClick={handleDrawerClose}>
+                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                    </IconButton>
+                </div>
+                <Divider />
+                <List>
+                    <ListItem onClick={toggleCalendarOn} button key="Display by date">
+                        <ListItemIcon><EventIcon /></ListItemIcon>
+                        <ListItemText primary="Display by date" />
+                    </ListItem>
+                    {
+                        calendarOn ?
+                            <React.Fragment>
+                                <Divider />
+                                <Calendar onChange={(e) => handleDateChoice(e)}
+                                /></React.Fragment> : null
+                    }
+                    <Divider />
+                    <Link to="/">
+                        <ListItem button key="Home">
+                            <ListItemIcon><HomeIcon /></ListItemIcon>
+                            <ListItemText primary="Homepage" />
+                        </ListItem>
+                    </Link>
+                    <Link onClick={() => { galleryState(true) }} to="/gallery">
+                        <ListItem button key="Gallery">
+                            <ListItemIcon><PhotoSizeSelectActualIcon /></ListItemIcon>
+                            <ListItemText primary="Gallery" />
+                        </ListItem>
+                    </Link>
+                    <ListItem button key="Favorites">
+                        <ListItemIcon><FavoriteIcon /></ListItemIcon>
+                        <ListItemText primary="Favorites" />
+                    </ListItem>
+                </List>
+                <Divider />
+            </Drawer>
         </div>
     )
 }

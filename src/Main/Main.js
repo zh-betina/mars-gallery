@@ -27,13 +27,23 @@ const Main = () => {
     const [fetchedData, setFetchedData] = useState({camera_name: "", date: "", imgSrc: ""});
     const todayDate = getDate();
     let data;
-    let url = `https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=${todayDate.year}-${todayDate.month}-${todayDate.day}&api_key=${process.env.REACT_APP_API_KEY}`;
+    let url;
     let method = "GET";
+    const storedDate = JSON.parse(localStorage.getItem("date"));
+    if(storedDate === null){
+        url = `https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=${todayDate.year}-${todayDate.month}-${todayDate.day}&api_key=${process.env.REACT_APP_API_KEY}`;
+    } else {
+        url = `https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=${todayDate.year}-${todayDate.month}-${todayDate.day}&api_key=${process.env.REACT_APP_API_KEY}`
+    }
 
+    console.log(storedDate);
+
+    console.log(localStorage.getItem("date"));
     useEffect(() => {
         fetchData(data, url, method)
         .then((data) => {
             setFetchedData({camera_name: data.photos[0].camera.full_name, date: data.photos[0].earth_date, imgSrc: data.photos[0].img_src})
+            localStorage.clear();
         })
         .then(()=> setLoader(false));
     }, []);

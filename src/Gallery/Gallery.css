@@ -1,0 +1,5 @@
+.Gallery-chips{
+    margin: 5rem;
+    flex-wrap: wrap;
+    width: 60vw;
+}
