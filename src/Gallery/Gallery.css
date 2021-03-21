@@ -3,3 +3,11 @@
     flex-wrap: wrap;
     width: 60vw;
 }
+
+.Title-gallery{
+    height: 6rem;
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: #3c415c;
+    margin: 2rem;
+}
