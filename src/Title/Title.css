@@ -6,4 +6,5 @@
     font-size: 2rem;
     text-transform: uppercase;
     color: #b4a5a5;
+    z-index: 20;
 }

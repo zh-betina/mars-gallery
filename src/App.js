@@ -3,11 +3,9 @@ import { BrowserRouter } from 'react-router-dom';
 
 import Sidebar from "./Sidebar/Sidebar";
 import Main from "./Main/Main";
+import WeatherFeed from "./WeatherFeed/WeatherFeed";
 
 import './App.css';
-
-console.log(process.env.REACT_APP_API_KEY);
-
 
 function App() {
   return (
@@ -15,6 +13,7 @@ function App() {
       <div className="App">
             <Sidebar />
             <Route path="/" exact component={Main} />
+            <WeatherFeed/>
       </div>
     </BrowserRouter>
   );
