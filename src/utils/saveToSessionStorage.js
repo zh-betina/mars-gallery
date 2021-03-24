@@ -1,5 +1,5 @@
-const saveToSessionStorage = (key, value)=>{
-    sessionStorage.setItem(key,  value);
-}
+const saveToSessionStorage = (key, value) => {
+  sessionStorage.setItem(key, value);
+};
 
 export default saveToSessionStorage;

@@ -1,13 +1,11 @@
-//import Icon from 'mdi-react';
+// import Icon from 'mdi-react';
+import React from 'react';
 
-import WbSunnyIcon from '@material-ui/icons/WbSunny';
-
-import "./WeatherEntry.css";
+import './WeatherEntry.css';
 
 const WeatherEntry = props => {
-    
-    const dateFormat = props.First_UTC.substr(0, 10);
-    return (
+  const dateFormat = props.First_UTC.substr(0, 10);
+  return (
         <div className="WeatherEntry-wrapper">
             {props.children}
             <div className="row">
@@ -27,7 +25,7 @@ const WeatherEntry = props => {
                 <p>Season: {props.Season}</p>
             </div>
         </div>
-    )
-}
+  );
+};
 
 export default WeatherEntry;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
-import { useLocation, useHistory } from "react-router-dom";
+import { Link, useHistory } from 'react-router-dom';
+
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -23,126 +23,124 @@ import PhotoSizeSelectActualIcon from '@material-ui/icons/PhotoSizeSelectActual'
 import Calendar from 'react-calendar';
 import HomeIcon from '@material-ui/icons/Home';
 import 'react-calendar/dist/Calendar.css';
-import saveToLocalStorage from "../utils/saveToSessionStorage";
-
 
 const drawerWidth = 280;
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-    },
-    appBar: {
-        backgroundColor: "#000",
-        zIndex: theme.zIndex.drawer + 1,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-    },
-    appBarShift: {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    menuButton: {
-        marginRight: 40,
-    },
-    hide: {
-        display: 'none',
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-        whiteSpace: 'nowrap',
-    },
-    drawerOpen: {
-        width: drawerWidth,
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    drawerClose: {
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        overflowX: 'hidden',
-        width: theme.spacing(7) + 1,
-        [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9) + 1,
-        },
-    },
-    toolbar: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: theme.spacing(0, 1),
-        // necessary for content to be below app bar
-        ...theme.mixins.toolbar,
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        backgroundColor: "#000"
-    },
+  root: {
+    display: 'flex'
+  },
+  appBar: {
+    backgroundColor: '#000',
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    })
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  },
+  menuButton: {
+    marginRight: 40
+  },
+  hide: {
+    display: 'none'
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: 'nowrap'
+  },
+  drawerOpen: {
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  },
+  drawerClose: {
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    }),
+    overflowX: 'hidden',
+    width: theme.spacing(7) + 1,
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing(9) + 1
+    }
+  },
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    backgroundColor: '#000'
+  }
 }));
 
+const Sidebar = ({ setUrlToFetch }) => {
+  const classes = useStyles();
+  const theme = useTheme();
+  const [open, setOpen] = useState(false);
+  const [calendarOn, setCalendarOn] = useState(false);
+  const [calendarVal, setCalendarValue] = useState(new Date());
+  //  const currentlocation = useLocation();
+  const history = useHistory();
 
-const Sidebar = () => {
-    const classes = useStyles();
-    const theme = useTheme();
-    const [open, setOpen] = useState(false);
-    const [calendarOn, setCalendarOn] = useState(false);
-    const [calendarVal, setCalendarValue] = useState(new Date());
-    let currentlocation = useLocation();
-    let history = useHistory();
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
 
+  const handleDrawerClose = () => {
+    setOpen(false);
+    setCalendarOn(false);
+  };
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-        setCalendarOn(false);
-    };
-
-    const toggleCalendarOn = () => {
-        if (calendarOn === true) {
-            setCalendarOn(false)
-        } else {
-            setOpen(true);
-            setCalendarOn(true);
-        }
-    };
-
-    const handleDateChoice = (e) => {
-        setCalendarValue(new Date(e));
-        handleNewDate(e);
+  const toggleCalendarOn = () => {
+    if (calendarOn === true) {
+      setCalendarOn(false);
+    } else {
+      setOpen(true);
+      setCalendarOn(true);
     }
+  };
 
-    const handleNewDate = (e)=>{
-        const objDate = { "day": e.getDate(), "month": e.getMonth() + 1, "year": e.getFullYear()}
-        saveToLocalStorage("date", JSON.stringify(objDate));
-        if(currentlocation.pathname === "/"){
-            window.location.reload();
-        }else{
-            history.push("/");
-        }
-    }
+  const handleDateChoice = (e) => {
+    setCalendarValue(new Date(e));
+    handleNewDate(e);
+  };
 
-    return (
+  const handleNewDate = (e) => {
+    const objDate = { day: e.getDate(), month: e.getMonth() + 1, year: e.getFullYear() };
+    // saveToLocalStorage('date', JSON.stringify(objDate));
+    setUrlToFetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=${objDate.year}-${objDate.month}-${objDate.day}&api_key=${process.env.REACT_APP_API_KEY}`);
+    /*  if (currentlocation.pathname === '/') {
+      window.location.reload();
+    } else {
+      history.push('/');
+    } */
+    history.push('/');
+  };
+
+  return (
         <div className={classes.root}>
             <CssBaseline />
             <AppBar
                 position="fixed"
                 className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open,
+                  [classes.appBarShift]: open
                 })}
             >
                 <Toolbar>
@@ -152,7 +150,7 @@ const Sidebar = () => {
                         onClick={handleDrawerOpen}
                         edge="start"
                         className={clsx(classes.menuButton, {
-                            [classes.hide]: open,
+                          [classes.hide]: open
                         })}
                     >
                         <MenuIcon />
@@ -165,14 +163,14 @@ const Sidebar = () => {
             <Drawer
                 variant="permanent"
                 className={clsx(classes.drawer, {
-                    [classes.drawerOpen]: open,
-                    [classes.drawerClose]: !open,
+                  [classes.drawerOpen]: open,
+                  [classes.drawerClose]: !open
                 })}
                 classes={{
-                    paper: clsx({
-                        [classes.drawerOpen]: open,
-                        [classes.drawerClose]: !open,
-                    }),
+                  paper: clsx({
+                    [classes.drawerOpen]: open,
+                    [classes.drawerClose]: !open
+                  })
                 }}
             >
                 <div className={classes.toolbar}>
@@ -187,11 +185,12 @@ const Sidebar = () => {
                         <ListItemText primary="Display by date" />
                     </ListItem>
                     {
-                        calendarOn ?
-                            <React.Fragment>
+                        calendarOn
+                          ? <React.Fragment>
                                 <Divider />
                                 <Calendar value={calendarVal} onChange={(e) => handleDateChoice(e)}
-                                /></React.Fragment> : null
+                                /></React.Fragment>
+                          : null
                     }
                     <Divider />
                     <Link to="/">
@@ -214,7 +213,7 @@ const Sidebar = () => {
                 <Divider />
             </Drawer>
         </div>
-    )
-}
+  );
+};
 
 export default Sidebar;

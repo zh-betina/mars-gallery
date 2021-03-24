@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { makeStyles } from '@material-ui/core/styles';
 import CardHeader from '@material-ui/core/CardHeader';
 import Card from '@material-ui/core/Card';
@@ -10,22 +12,22 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import FullscreenIcon from '@material-ui/icons/Fullscreen';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        maxWidth: 345,
-    },
-    media: {
-        height: 0,
-        paddingTop: '56.25%', // 16:9
-    },
-    fullscreen: {
-        marginLeft: "auto"
-    }
-    
+  root: {
+    maxWidth: 345
+  },
+  media: {
+    height: 0,
+    paddingTop: '56.25%' // 16:9
+  },
+  fullscreen: {
+    marginLeft: 'auto'
+  }
+
 }));
 
 const PhotoCard = props => {
-    const classes = useStyles();
-    return (
+  const classes = useStyles();
+  return (
         <Card className={classes.root}>
             <CardHeader
                 title={props.date}
@@ -51,7 +53,7 @@ const PhotoCard = props => {
                 </IconButton>
             </CardActions>
         </Card>
-    )
-}
+  );
+};
 
 export default PhotoCard;

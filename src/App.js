@@ -1,20 +1,23 @@
-import { Route, BrowserRouter } from "react-router-dom";
+import React, { useState } from 'react';
+import { Route, BrowserRouter } from 'react-router-dom';
 
-import Sidebar from "./Sidebar/Sidebar";
-import Main from "./Main/Main";
-import WeatherFeed from "./WeatherFeed/WeatherFeed";
-import Gallery from "./Gallery/Gallery";
+import Sidebar from './Sidebar/Sidebar';
+import Main from './Main/Main';
+import WeatherFeed from './WeatherFeed/WeatherFeed';
+import Gallery from './Gallery/Gallery';
 
 import './App.css';
 
-function App() {
+function App () {
+  const [urlToFetch, setUrlToFetch] = useState('');
+
   return (
     <BrowserRouter>
       <div className="App">
-            <Sidebar />
-            <Route path="/" exact component={Main} />
-            <Route path="/gallery" component={Gallery} />
-            <WeatherFeed/>
+        <Sidebar setUrlToFetch={setUrlToFetch}/>
+        <Route path="/" exact component={() => <Main urlToFetch={urlToFetch} />} />
+        <Route path="/gallery" component={Gallery} />
+        <WeatherFeed />
       </div>
     </BrowserRouter>
   );
