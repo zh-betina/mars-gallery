@@ -45,7 +45,7 @@ const Main = ({ urlToFetch }) => {
         if (data.photos.length !== 0) {
           setFetchedData({ camera_name: data.photos[0].camera.full_name, date: data.photos[0].earth_date, imgSrc: data.photos[0].img_src });
         } else {
-          setFetchedData({ message: 'No photos found for that day. Please, try the same date with another camera or another date.' });
+          setFetchedData({ message: 'No photos found for that day. Please, try the same date with another camera or choose another date.' });
         }
       })
       .then(() => setLoader(false));
@@ -65,7 +65,7 @@ const Main = ({ urlToFetch }) => {
                 {
                     loader
                       ? <>
-                        <CircularProgress className={classes.loader} color='black' />
+                        <CircularProgress className={classes.loader} />
                         <p className='Main-loader'>Loading...</p>
                         </>
                       : photoNotAvail()

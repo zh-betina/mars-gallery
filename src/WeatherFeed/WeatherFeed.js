@@ -38,8 +38,6 @@ const WeatherFeed = () => {
 
     fetchData(data, url, method)
       .then((data) => {
-        console.log(data);
-
         for (const key in data.sol_keys) {
           loadedEntries.push({
             sol: data.sol_keys[key]

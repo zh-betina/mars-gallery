@@ -26,3 +26,13 @@
     color: #151515;
     text-transform: uppercase;
 }
+
+.LatPhoto-icons{
+    margin-left: 20rem;
+    width: 30vw;
+    text-align: center;
+}
+
+.LatPhoto-icons-share{
+    margin-top: 2rem;
+}
