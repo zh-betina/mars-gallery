@@ -1,7 +1,6 @@
 import { React, useEffect, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-//  import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Title from '../Title/Title';
@@ -50,7 +49,7 @@ const Main = ({ urlToFetch }) => {
         }
       })
       .then(() => setLoader(false));
-  }, [url]);
+  }, []);
 
   const photoNotAvail = () => {
     if (fetchedData.hasOwnProperty('message')) {

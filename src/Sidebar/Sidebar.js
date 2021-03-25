@@ -124,13 +124,7 @@ const Sidebar = ({ setUrlToFetch }) => {
 
   const handleNewDate = (e) => {
     const objDate = { day: e.getDate(), month: e.getMonth() + 1, year: e.getFullYear() };
-    // saveToLocalStorage('date', JSON.stringify(objDate));
     setUrlToFetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=${objDate.year}-${objDate.month}-${objDate.day}&api_key=${process.env.REACT_APP_API_KEY}`);
-    /*  if (currentlocation.pathname === '/') {
-      window.location.reload();
-    } else {
-      history.push('/');
-    } */
     history.push('/');
   };
 
