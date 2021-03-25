@@ -6,14 +6,10 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
-import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 import ShareIcon from '@material-ui/icons/Share';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import TwitterIcon from '@material-ui/icons/Twitter';
-import LinkIcon from '@material-ui/icons/Link';
+import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, PinterestShareButton, PinterestIcon } from 'react-share';
 
 import './LatPhoto.css';
 
@@ -127,17 +123,21 @@ const LatPhoto = props => {
       </HtmlTooltip>
       <div className="LatPhoto-icons row">
         {fav ? <FavoriteIcon className={classes.favIcon} onClick={handleFav} /> : <FavoriteBorderIcon className={classes.favIcon} onClick={handleFav} />}
-        <AddPhotoAlternateIcon className={classes.addToGalleryIcon} />
-        <GetAppIcon className={classes.downloadIcon}/>
-        <ShareIcon onClick={handleShareIcons} className={classes.shareIcon}/>
+        <ShareIcon onClick={handleShareIcons} className={classes.shareIcon} />
       </div>
       {
         shareIconsVisible
-          ? <div className="LatPhoto-icons LatPhoto-icons-share">
-        <FacebookIcon className={classes.facebookIcon}/>
-         <TwitterIcon className={classes.twitterIcon}/>
-         <LinkIcon className={classes.linkIcon}/>
-       </div>
+          ? <div className="LatPhoto-icons-share">
+            <FacebookShareButton url={props.imgSrc} quote={`Photo from Mars, taken by ${props.camera}. Date: ${props.date}.`}>
+              <FacebookIcon size={30} round={true}/>
+            </FacebookShareButton>
+            <TwitterShareButton title={`Mars photo. Taken by ${props.camera}. Date: ${props.date}.`} url={props.imgSrc}>
+              <TwitterIcon size={30} round={true}/>
+            </TwitterShareButton>
+            <PinterestShareButton description={`Photo from Mars, taken by ${props.camera}. Date: ${props.date}.`} url={props.imgSrc} media={props.imgSrc}>
+              <PinterestIcon size={30} round={true}/>
+            </PinterestShareButton>
+          </div>
           : null
       }
 

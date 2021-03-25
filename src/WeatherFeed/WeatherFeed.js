@@ -19,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
     right: '0',
     zIndex: '10',
     paddingTop: '15rem',
-    overflowY: 'scroll'
+    overflowY: 'scroll',
+    paddingBottom: '3rem'
   }
 }));
 
@@ -46,15 +47,18 @@ const WeatherFeed = () => {
 
         loadedEntries.forEach((el, idx) => {
           keys.forEach(keysEl => {
+            // checking if data[el.sol] (which means the data received from the api) contains any of the keys specified in the line 38 (array with 5 elements)
             if (Object.keys(data[el.sol]).includes(keysEl)) {
+              // if it does, then add it to loadedEntries
               loadedEntries[idx][keysEl] = data[el.sol][keysEl];
-              if (keysEl === 'AT' || keysEl === 'PRE' || keysEl === 'HWS') {
+              // and still check for these three, as we need only average temp. from them
+              if (['AT', 'PRE', 'HWS'].includes(keysEl)) {
                 loadedEntries[idx][keysEl] = data[el.sol][keysEl].av;
               }
             }
           });
         });
-        console.log(loadedEntries);
+
         setWeatherEntries(loadedEntries);
       })
       .then(() => setLoader(false));
